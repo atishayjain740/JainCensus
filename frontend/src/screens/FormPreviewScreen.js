@@ -4,15 +4,14 @@ import { Helmet } from 'react-helmet-async';
 import Button from 'react-bootstrap/esm/Button';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { getError } from '../utils';
 import { Store } from '../Store';
+import IdCard from '../components/IdCard';
+import Col from 'react-bootstrap/esm/Col';
 
-export default function FormPaymentScreen() {
+export default function FormPreviewScreen() {
   const navigate = useNavigate();
-  const { search } = useLocation();
-  const redirectInUrl = new URLSearchParams(search).get('redirect');
-  const redirect = redirectInUrl ? redirectInUrl : '/';
 
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { userInfo, form } = state;
@@ -42,20 +41,40 @@ export default function FormPaymentScreen() {
       toast.error(getError(err));
     }
   };
+
+  const editFormHandler = () => {
+    navigate('/formBasicInformation');
+  };
+
   return (
     <div>
       <Helmet>Payment</Helmet>
-      <CheckOutSteps step1 step2 step3 step4></CheckOutSteps>
+      <CheckOutSteps step1 step2 step3 step4 step5></CheckOutSteps>
       <div className="container small-container">
-        <h1 className="my-3">Payment</h1>;
-        <Button
-          onClick={submitFormHandler}
-          className="primary m-3"
-          size="lg"
-          variant="primary"
-        >
-          Submit
-        </Button>
+        <h1 className="my-3">Preview</h1>
+        <p>Click edit to edit the form</p>
+        <p>Click on submit to submit the form and generate QR Code</p>
+        <Col>
+          <Button
+            onClick={editFormHandler}
+            className="primary m-3"
+            size="lg"
+            variant="primary"
+          >
+            Edit
+          </Button>
+          <Button
+            onClick={submitFormHandler}
+            className="primary m-3"
+            size="lg"
+            variant="primary"
+          >
+            Submit
+          </Button>
+        </Col>
+        <div id="idcard" style={{ display: 'inline-block' }}>
+          <IdCard form={form} />
+        </div>
       </div>
     </div>
   );

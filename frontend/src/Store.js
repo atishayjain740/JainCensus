@@ -18,6 +18,9 @@ const initialState = {
     familyFormInfo: localStorage.getItem('familyFormInfo')
       ? JSON.parse(localStorage.getItem('familyFormInfo'))
       : {},
+    photoFormInfo: localStorage.getItem('photoFormInfo')
+      ? JSON.parse(localStorage.getItem('photoFormInfo'))
+      : {},
   },
 };
 
@@ -33,6 +36,7 @@ function reducer(state, action) {
       localStorage.removeItem('basicFormInfo');
       localStorage.removeItem('additionalFormInfo');
       localStorage.removeItem('familyFormInfo');
+      localStorage.removeItem('photoFormInfo');
 
       return {
         ...state,
@@ -73,6 +77,17 @@ function reducer(state, action) {
         form: {
           ...state.form,
           familyFormInfo: action.payload,
+        },
+      };
+    }
+    case 'SAVE_FORM_PHOTO': {
+      localStorage.setItem('photoFormInfo', JSON.stringify(action.payload));
+
+      return {
+        ...state,
+        form: {
+          ...state.form,
+          photoFormInfo: action.payload,
         },
       };
     }

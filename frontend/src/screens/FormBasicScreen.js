@@ -25,9 +25,11 @@ export default function FormBasicScreen() {
   useEffect(() => {
     if (!userInfo) {
       navigate('/signin?redirect=/formBasicInformation');
+      return;
     }
-    if (userInfo.formSubmitted) {
+    if (userInfo['formSubmitted']) {
       navigate('/formSubmittedScreen');
+      return;
     }
   }, [userInfo, navigate]);
 

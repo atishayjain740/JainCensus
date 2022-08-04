@@ -37,6 +37,81 @@ main {
   color: #f08000;
 }
 
+.id-card {
+  width: 470px;
+  max-width: 470px;
+  height: 275px;
+  max-height: 275px;
+  display: inline-block;
+  border-radius: 15px;
+}
+
+.id-header {
+  background-color: #d3d3d3;
+  border-radius: 15px 15px 0px 0px;
+  background-color: #faf9f6;
+}
+
+.id-title {
+  color: red;
+  font-size: 22;
+  font-weight: 900;
+  margin: 0;
+  padding: 0;
+}
+
+.id-title-info {
+  color: blue;
+  font-size: 11px;
+  font-weight: 600;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.id-sub-title {
+  color: white;
+  background-color: red;
+  text-align: center;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.id-body-info {
+  color: black;
+  font-weight: 600;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 18px;
+}
+
+.id-body-info2 {
+  color: black;
+  font-weight: 600;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 12px;
+}
+
+.id-photo {
+  border: 1px solid red;
+  width: 100px;
+  max-width: 100px;
+  height: 120px;
+  max-height: 120px;
+}
+
+.id-footer {
+  font-size: 10px;
+  font-weight: 600;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
 .phone-number::-webkit-inner-spin-button,
 .phone-number::-webkit-outer-spin-button {
   -webkit-appearance: none;

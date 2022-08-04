@@ -70,4 +70,13 @@ userRouter.post(
   })
 );
 
+userRouter.get('/form/:phoneNumber', async (req, res) => {
+  const form = await Form.findOne({ phoneNumber: req.params.phoneNumber });
+  if (form) {
+    res.send(form);
+  } else {
+    res.status(404).send({ message: 'Form not found' });
+  }
+});
+
 export default userRouter;

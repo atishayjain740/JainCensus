@@ -8,7 +8,8 @@ export default function CheckOutSteps(props) {
       <Col className={props.step1 ? 'active' : ''}>Basic</Col>
       <Col className={props.step2 ? 'active' : ''}>Additional</Col>
       <Col className={props.step3 ? 'active' : ''}>Family</Col>
-      <Col className={props.step4 ? 'active' : ''}>Payment</Col>
+      <Col className={props.step4 ? 'active' : ''}>Photo</Col>
+      <Col className={props.step5 ? 'active' : ''}>Preview</Col>
     </Row>
   );
 }

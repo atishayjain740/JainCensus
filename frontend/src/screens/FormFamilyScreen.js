@@ -33,7 +33,7 @@ export default function FormFamilyScreen() {
       },
     });
 
-    navigate('/formPayment');
+    navigate('/formPhoto');
   };
 
   return (
@@ -41,7 +41,7 @@ export default function FormFamilyScreen() {
       <Helmet>Family Information</Helmet>
       <CheckOutSteps step1 step2 step3></CheckOutSteps>
       <div className="container small-container">
-        <h1 className="my-3">Additional Information</h1>
+        <h1 className="my-3">Family Information</h1>
         <Form onSubmit={submitHandler}>
           <Form.Group className="mb-3" controlId="numMembers">
             <FormLabel>Number of family members</FormLabel>

@@ -15,8 +15,9 @@ import SignUpScreen from './screens/SignUpScreen';
 import FormBasicScreen from './screens/FormBasicScreen';
 import FormAdditionalScreen from './screens/FormAdditionalScreen';
 import FormFamilyScreen from './screens/FormFamilyScreen';
-import FormPaymentScreen from './screens/FormPaymentScreen';
 import FormSubmittedScreen from './screens/FormSubmittedScreen';
+import FormPhotoScreen from './screens/FormPhotoScreen';
+import FormPreviewScreen from './screens/FormPreviewScreen';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -92,7 +93,8 @@ function App() {
                 path="/formFamilyInformation"
                 element={<FormFamilyScreen />}
               />
-              <Route path="/formPayment" element={<FormPaymentScreen />} />
+              <Route path="/formPhoto" element={<FormPhotoScreen />} />
+              <Route path="/formPreview" element={<FormPreviewScreen />} />
               <Route
                 path="/formSubmittedScreen"
                 element={<FormSubmittedScreen />}
