@@ -14,3 +14,15 @@ export function getCurrentDate(separator = '-') {
     month < 10 ? `0${month}` : `${month}`
   }${separator}${year}`;
 }
+
+export const generateQrCodeUrl = (id) => {
+  return `${getStagingUrl()}idCard?id=${id}`;
+};
+
+export const getStagingUrl = () => {
+  return 'https://jain-census.herokuapp.com/';
+};
+
+export const getTestingUrl = () => {
+  return 'http://localhost:3000/';
+};

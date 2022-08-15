@@ -11,9 +11,5 @@ export default function QrCodeImage({ address }) {
     });
   }, []);
 
-  return (
-    <div>
-      <img alt="" src={src} />
-    </div>
-  );
+  return <img alt="" src={src} />;
 }

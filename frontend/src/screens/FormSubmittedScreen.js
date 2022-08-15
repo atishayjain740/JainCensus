@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useReducer } from 'react';
+import React, { useContext, useEffect, useReducer, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Button from 'react-bootstrap/esm/Button';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -35,6 +35,8 @@ export default function FormSubmittedScreen() {
     error: '',
   });
 
+  const [formId, setFormId] = useState('');
+
   useEffect(() => {
     if (!userInfo) {
       navigate('/signin?redirect=/formSubmittedScreen');
@@ -48,6 +50,9 @@ export default function FormSubmittedScreen() {
             `/api/users/form/${userInfo.phoneNumber}`
           );
           dispatch({ type: 'FETCH_SUCCESS', payload: result.data['form'] });
+
+          // Set form id to generate qr code.
+          setFormId(result.data['_id']);
         } catch (err) {
           dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
         }
@@ -80,7 +85,7 @@ export default function FormSubmittedScreen() {
       <div className="container small-container">
         <h1 className="my-3">You have succesfully submitted the form !!</h1>
         <div id="idcard" style={{ display: 'inline-block' }}>
-          {form && <IdCard form={form} showQr={true} />}
+          {form && <IdCard form={form} id={formId} />}
         </div>
         <Button
           onClick={downloadHandler}

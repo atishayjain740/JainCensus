@@ -73,7 +73,7 @@ export default function FormPreviewScreen() {
           </Button>
         </Col>
         <div id="idcard" style={{ display: 'inline-block' }}>
-          <IdCard form={form} showQr={false} />
+          <IdCard form={form} />
         </div>
       </div>
     </div>

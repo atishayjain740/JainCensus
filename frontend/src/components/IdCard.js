@@ -2,11 +2,11 @@ import React from 'react';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/esm/Col';
 import Row from 'react-bootstrap/esm/Row';
-import { getCurrentDate } from '../utils';
+import { generateQrCodeUrl, getCurrentDate } from '../utils';
 import QrCodeImage from './QrCodeImage';
 
 export default function IdCard(props) {
-  const { form, showQr } = props;
+  const { form, id } = props;
   return (
     <div>
       <Card className="id-card">
@@ -224,7 +224,11 @@ export default function IdCard(props) {
                 className="id-photo d-flex justify-content-center my-auto"
                 xs={3}
               >
-                {showQr ? <QrCodeImage address="www.google.com" /> : 'QR Code'}
+                {id ? (
+                  <QrCodeImage address={generateQrCodeUrl(id)} />
+                ) : (
+                  'QR Code'
+                )}
               </Col>
               <div>
                 <hr

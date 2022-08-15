@@ -4,6 +4,7 @@ import bcrypt from 'bcryptjs';
 import { generateToken } from '../utils.js';
 import expressAsyncHandler from 'express-async-handler';
 import Form from '../models/formModel.js';
+import { ObjectId } from 'mongodb';
 
 const userRouter = express.Router();
 
@@ -72,6 +73,17 @@ userRouter.post(
 
 userRouter.get('/form/:phoneNumber', async (req, res) => {
   const form = await Form.findOne({ phoneNumber: req.params.phoneNumber });
+  if (form) {
+    res.send(form);
+  } else {
+    res.status(404).send({ message: 'Form not found' });
+  }
+});
+
+userRouter.get('/form/id/:id', async (req, res) => {
+  var id = req.params.id;
+
+  const form = await Form.findOne({ _id: ObjectId(id) });
   if (form) {
     res.send(form);
   } else {

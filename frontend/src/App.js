@@ -18,6 +18,7 @@ import FormFamilyScreen from './screens/FormFamilyScreen';
 import FormSubmittedScreen from './screens/FormSubmittedScreen';
 import FormPhotoScreen from './screens/FormPhotoScreen';
 import FormPreviewScreen from './screens/FormPreviewScreen';
+import ViewIdCardScreen from './screens/ViewIdCardScreen';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -99,6 +100,7 @@ function App() {
                 path="/formSubmittedScreen"
                 element={<FormSubmittedScreen />}
               />
+              <Route path="/idCard" element={<ViewIdCardScreen />} />
             </Routes>
           </Container>
         </main>
