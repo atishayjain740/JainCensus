@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import path from 'path';
 import userRouter from './routes/userRoutes.js';
 import seedRouter from './routes/seedRoutes.js';
 
@@ -23,6 +24,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/seed', seedRouter);
 
 app.use('/api/users', userRouter);
+
+const __dirname = path.resolve();
+app.use(express.static(path.join(__dirname, '/frontend/build')));
+app.get('*', (req, res) =>
+  res.sendFile(path.join(__dirname, 'frontend/build/index.html'))
+);
 
 // For sending err for user routes using expressAsyncHandler
 app.use((err, req, res, next) => {

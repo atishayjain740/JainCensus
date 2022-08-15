@@ -80,7 +80,7 @@ export default function FormSubmittedScreen() {
       <div className="container small-container">
         <h1 className="my-3">You have succesfully submitted the form !!</h1>
         <div id="idcard" style={{ display: 'inline-block' }}>
-          {form && <IdCard form={form} />}
+          {form && <IdCard form={form} showQr={true} />}
         </div>
         <Button
           onClick={downloadHandler}
