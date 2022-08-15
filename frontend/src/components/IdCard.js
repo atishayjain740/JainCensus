@@ -2,6 +2,7 @@ import React from 'react';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/esm/Col';
 import Row from 'react-bootstrap/esm/Row';
+import { getCurrentDate } from '../utils';
 
 export default function IdCard(props) {
   const { form } = props;
@@ -55,7 +56,7 @@ export default function IdCard(props) {
                     <p className="id-body-info">:</p>
                   </Col>
                   <Col xs={8}>
-                    <p className="id-body-info"></p>
+                    <p className="id-body-info">{form.basicFormInfo['dob']}</p>
                   </Col>
                 </Row>
                 <Row>
@@ -111,6 +112,36 @@ export default function IdCard(props) {
           <Card.Text className="px-2 py-1">
             <Row>
               <Col xs={9}>
+                {form.basicFormInfo.gender === 'Female' &&
+                form.basicFormInfo.married === 'Yes' ? (
+                  <Row>
+                    <Col xs={4}>
+                      <p className="id-body-info2">Husband's Name</p>
+                    </Col>
+                    <Col xs={1}>
+                      <p className="id-body-info2">:</p>
+                    </Col>
+                    <Col xs={7}>
+                      <p className="id-body-info2">
+                        {form.familyFormInfo['partnerName']}
+                      </p>
+                    </Col>
+                  </Row>
+                ) : (
+                  <Row>
+                    <Col xs={4}>
+                      <p className="id-body-info2">Father's Name</p>
+                    </Col>
+                    <Col xs={1}>
+                      <p className="id-body-info2">:</p>
+                    </Col>
+                    <Col xs={7}>
+                      <p className="id-body-info2">
+                        {form.familyFormInfo['fatherName']}
+                      </p>
+                    </Col>
+                  </Row>
+                )}
                 <Row>
                   <Col xs={4}>
                     <p className="id-body-info2">Address</p>
@@ -132,7 +163,9 @@ export default function IdCard(props) {
                     <p className="id-body-info2">:</p>
                   </Col>
                   <Col xs={7}>
-                    <p className="id-body-info2"></p>
+                    <p className="id-body-info2">
+                      {form.basicFormInfo['phoneNumber']}
+                    </p>
                   </Col>
                 </Row>
                 <Row>
@@ -143,7 +176,9 @@ export default function IdCard(props) {
                     <p className="id-body-info2">:</p>
                   </Col>
                   <Col xs={7}>
-                    <p className="id-body-info2"></p>
+                    <p className="id-body-info2">
+                      {form.basicFormInfo['emergencyNumber']}
+                    </p>
                   </Col>
                 </Row>
                 <Row>
@@ -154,7 +189,9 @@ export default function IdCard(props) {
                     <p className="id-body-info2">:</p>
                   </Col>
                   <Col xs={7}>
-                    <p className="id-body-info2"></p>
+                    <p className="id-body-info2">
+                      {form.basicFormInfo['bloodGroup']}
+                    </p>
                   </Col>
                 </Row>
                 <Row>
@@ -165,7 +202,9 @@ export default function IdCard(props) {
                     <p className="id-body-info2">:</p>
                   </Col>
                   <Col xs={7}>
-                    <p className="id-body-info2"></p>
+                    <p className="id-body-info2">
+                      {form.basicFormInfo['aadhar']}
+                    </p>
                   </Col>
                 </Row>
                 <Row>
@@ -176,7 +215,7 @@ export default function IdCard(props) {
                     <p className="id-body-info2">:</p>
                   </Col>
                   <Col xs={7}>
-                    <p className="id-body-info2"></p>
+                    <p className="id-body-info2">{getCurrentDate()}</p>
                   </Col>
                 </Row>
               </Col>

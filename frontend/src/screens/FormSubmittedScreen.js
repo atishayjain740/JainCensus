@@ -38,6 +38,7 @@ export default function FormSubmittedScreen() {
   useEffect(() => {
     if (!userInfo) {
       navigate('/signin?redirect=/formSubmittedScreen');
+      return;
     }
     if (userInfo.formSubmitted) {
       const fetchData = async () => {
