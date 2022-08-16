@@ -7,6 +7,8 @@ import { Store } from '../Store';
 import html2canvas from 'html2canvas';
 import axios from 'axios';
 import { getError } from '../utils';
+import LoadingBox from '../components/LoadingBox';
+import MessageBox from '../components/MessageBox';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -59,7 +61,7 @@ export default function FormSubmittedScreen() {
       };
       fetchData();
     }
-  }, [form, userInfo, navigate]);
+  }, [userInfo, navigate]);
 
   const downloadHandler = () => {
     const input = document.getElementById('idcard');
@@ -79,7 +81,12 @@ export default function FormSubmittedScreen() {
   const buttonHandler = () => {
     navigate(redirect || '/homeScreen');
   };
-  return (
+
+  return loading ? (
+    <LoadingBox />
+  ) : error ? (
+    <MessageBox variant="danger">{error}</MessageBox>
+  ) : (
     <div>
       <Helmet>Form Submitted</Helmet>
       <div className="container small-container">
