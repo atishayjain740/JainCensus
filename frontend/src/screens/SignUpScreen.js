@@ -69,7 +69,14 @@ export default function SignUpScreen() {
               className="phone-number"
               type="number"
               required
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onWheel={(e) => e.target.blur()}
+              onChange={(e) => {
+                var num = e.target.value.match(/^\d+$/);
+                if (num === null) {
+                  e.target.value = '';
+                }
+                setPhoneNumber(e.target.value);
+              }}
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="password">

@@ -15,14 +15,14 @@ export default function HomeScreen() {
   return (
     <div>
       <Helmet>
-        <title>Jain Census</title>
+        <title>World Jain Census</title>
       </Helmet>
       <Row>
-        <Col md={6}>
+        <Col md={6} className="text-center">
           <img className="img-large" src="images/image.jpg" alt=""></img>
         </Col>
-        <Col md={6}>
-          <h1 className="m-3">Welcome to Jain Census</h1>
+        <Col md={6} className="text-center">
+          <h1 className="m-3">Welcome to World Jain Census</h1>
           <h4 className="m-3">
             Click on the button below and get your Id card now!!
           </h4>

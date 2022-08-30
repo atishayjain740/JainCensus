@@ -1,5 +1,4 @@
 import React from 'react';
-import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/esm/Col';
 import Row from 'react-bootstrap/esm/Row';
 import { generateQrCodeUrl, getCurrentDate } from '../utils';
@@ -9,31 +8,30 @@ export default function IdCard(props) {
   const { form, id } = props;
   return (
     <div>
-      <Card className="id-card">
-        <Card.Body className="p-0">
-          <Card.Title className="id-header p-1">
+      <div className="id-card">
+        <div className="p-0">
+          <div className="id-header p-1">
             <Row>
               <Col className="d-flex justify-content-center my-auto">
                 <img height={60} src="images/jain-symbol.png" alt="" />
               </Col>
               <Col xs={10} className="d-flex justify-content-center my-auto">
                 <div>
-                  <p className="id-title">SHRI DIGAMBAR JAIN SAMAJ</p>
-                  <p className="id-title-info">
+                  <p className="id-title">GLOBAL DIGAMBAR JAIN MAHASABHA</p>
+                  <p className="id-title">RASHTRIYA JAIN SANGHATAN</p>
+                  {/*<p className="id-title-info">
                     REGD. NO. RS. 2305 Dt. 30.08.1993
                   </p>
                   <p className="id-title-info">
                     JAIN TEMPLE ROAD, DIMAPUR - 797112 : NAGALAND
                   </p>
-                  <p className="id-title-info">03862-227504</p>
+  <p className="id-title-info">03862-227504</p>*/}
                 </div>
               </Col>
             </Row>
-          </Card.Title>
-          <Card.Title className="id-sub-title">
-            MINORITY IDENTITY CARD
-          </Card.Title>
-          <Card.Text className="px-2 py-1">
+          </div>
+          <div className="id-sub-title">परिचय पत्र (Identity Card)</div>
+          <div className="px-2 py-1">
             <Row>
               <Col xs={9}>
                 <Row>
@@ -92,13 +90,13 @@ export default function IdCard(props) {
                 <img src={form.photoFormInfo} alt="Photo" />
               </Col>
             </Row>
-          </Card.Text>
-        </Card.Body>
-      </Card>
+          </div>
+        </div>
+      </div>
       <div className="m-2"></div>
-      <Card className="id-card">
-        <Card.Body className="p-0">
-          <Card.Title className="id-header p-1">
+      <div className="id-card">
+        <div className="p-0">
+          <div className="id-header p-1">
             <Row>
               <Col className="d-flex justify-content-center my-auto">
                 <img height={30} src="images/jain-symbol.png" alt="" />
@@ -109,8 +107,8 @@ export default function IdCard(props) {
                 </div>
               </Col>
             </Row>
-          </Card.Title>
-          <Card.Text className="px-2 py-1">
+          </div>
+          <div className="px-2 py-1">
             <Row>
               <Col xs={9}>
                 {form.basicFormInfo.gender === 'Female' &&
@@ -247,9 +245,9 @@ export default function IdCard(props) {
                 authority.
               </p>
             </Row>
-          </Card.Text>
-        </Card.Body>
-      </Card>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

@@ -19,7 +19,10 @@ export default function FormAdditionalScreen() {
   const [aamnaya, setAamnaya] = useState(additionalFormInfo.aamnaya || '');
   const [panth, setPanth] = useState(additionalFormInfo.panth || '');
   const [varn, setVarn] = useState(additionalFormInfo.varn || '');
-  const [jati, setJati] = useState(additionalFormInfo.jati || '');
+  const [knownJati, setKnownJati] = useState(additionalFormInfo.jati || '');
+  const [otherJati, setOtherJati] = useState(additionalFormInfo.jati || '');
+  const [knownGotr, setKnownGotr] = useState(additionalFormInfo.gotr || '');
+  const [otherGotr, setOtherGotr] = useState(additionalFormInfo.gotr || '');
   const [nearestJainTemple, setNearestJainTemple] = useState(
     additionalFormInfo.nearestJainTemple || ''
   );
@@ -30,11 +33,43 @@ export default function FormAdditionalScreen() {
   useEffect(() => {
     if (!userInfo) {
       navigate('/signin?redirect=/formAdditionalInformation');
+      return;
     }
-  }, [userInfo, navigate]);
+
+    // Set the value of jati. Dropdown and text.
+    var jati = additionalFormInfo.jati;
+    if (!jati) {
+      setKnownJati('');
+      setOtherJati('');
+    } else if (formData.jatis.includes(jati)) {
+      setKnownJati(jati);
+      setOtherJati('');
+    } else {
+      setKnownJati('others');
+      setOtherJati(jati);
+    }
+
+    // Set the value of gotr. Dropdown and text.
+    var gotr = additionalFormInfo.gotr;
+
+    if (!gotr) {
+      setKnownGotr('');
+      setOtherGotr('');
+    } else if (formData.gotras[jati] && formData.gotras[jati].includes(gotr)) {
+      setKnownGotr(gotr);
+      setOtherGotr('');
+    } else {
+      setKnownGotr('others');
+      setOtherGotr(gotr);
+    }
+  }, [userInfo, navigate.additionalFormInfo]);
 
   const submitHandler = (e) => {
     e.preventDefault();
+
+    var jati = knownJati !== 'others' ? knownJati : otherJati;
+
+    var gotr = knownGotr !== 'others' ? knownGotr : otherGotr;
 
     ctxDispatch({
       type: 'SAVE_FORM_ADDITIONAL',
@@ -43,6 +78,7 @@ export default function FormAdditionalScreen() {
         panth,
         varn,
         jati,
+        gotr,
         nearestJainTemple,
         templeHeadName,
       },
@@ -89,9 +125,11 @@ export default function FormAdditionalScreen() {
               <option value="" disabled>
                 Choose an option
               </option>
-              {formData.panths.map((panth) => (
-                <option value={panth}>{panth}</option>
-              ))}
+              {aamnaya !== ''
+                ? formData.panths[aamnaya].map((panth) => (
+                    <option value={panth}>{panth}</option>
+                  ))
+                : ''}
             </Form.Control>
           </Form.Group>
           <Form.Group className="mb-3" controlId="varn">
@@ -118,9 +156,14 @@ export default function FormAdditionalScreen() {
             <Form.Control
               as="select"
               default=""
-              value={jati}
+              value={knownJati}
               required
-              onChange={(e) => setJati(e.target.value)}
+              onChange={(e) => {
+                if (e.target.value !== 'others') {
+                  setOtherJati('');
+                }
+                setKnownJati(e.target.value);
+              }}
             >
               <option value="" disabled>
                 Choose an option
@@ -128,7 +171,53 @@ export default function FormAdditionalScreen() {
               {formData.jatis.map((jati) => (
                 <option value={jati}>{jati}</option>
               ))}
+              <option value="others">अन्य/Others</option>
             </Form.Control>
+            <Form.Control
+              className="mt-1"
+              value={otherJati}
+              disabled={knownJati !== 'others'}
+              required
+              placeholder="Specify your जाति"
+              onChange={(e) => setOtherJati(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="gotr">
+            <Form.Label>गोत्र</Form.Label>
+            <span className="text-danger">*</span>
+            <Form.Control
+              as="select"
+              default=""
+              value={knownGotr}
+              required
+              onChange={(e) => {
+                if (e.target.value !== 'others') {
+                  setOtherGotr('');
+                }
+                setKnownGotr(e.target.value);
+              }}
+            >
+              <option value="" disabled>
+                Choose an option
+              </option>
+
+              {!formData.gotras.hasOwnProperty(
+                knownJati === 'others' ? otherJati : knownJati
+              )
+                ? ''
+                : formData.gotras[
+                    knownJati === 'others' ? otherJati : knownJati
+                  ].map((gotr) => <option value={gotr}>{gotr}</option>)}
+              <option value="others">अन्य/Others</option>
+            </Form.Control>
+            <Form.Control
+              className="mt-1"
+              value={otherGotr}
+              disabled={knownGotr !== 'others'}
+              required
+              placeholder="Specify your गोत्र"
+              onChange={(e) => setOtherGotr(e.target.value)}
+            />
           </Form.Group>
           <Form.Group className="mb-3" controlId="nearestJainTemple">
             <FormLabel>

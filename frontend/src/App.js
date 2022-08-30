@@ -19,6 +19,8 @@ import FormSubmittedScreen from './screens/FormSubmittedScreen';
 import FormPhotoScreen from './screens/FormPhotoScreen';
 import FormPreviewScreen from './screens/FormPreviewScreen';
 import ViewIdCardScreen from './screens/ViewIdCardScreen';
+import Row from 'react-bootstrap/esm/Row';
+import Col from 'react-bootstrap/esm/Col';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -37,11 +39,32 @@ function App() {
             <Container>
               <div>
                 <LinkContainer to="/">
-                  <img src="images/logo.svg" alt="" />
+                  <img className="main-logo" src="images/logo.svg" alt="" />
                 </LinkContainer>
                 <LinkContainer to="/">
-                  <Navbar.Brand>Jain Census</Navbar.Brand>
+                  <Navbar.Brand>World Jain Census</Navbar.Brand>
                 </LinkContainer>
+                <br></br>
+                <div style={{ fontSize: '10px' }} className="text-center">
+                  Powered by: Global Digambar Jain Mahasabha, Rashtriya Jain
+                  Sanghatan
+                  <br></br>
+                  <img
+                    className="logo-image-small"
+                    src="images/logo2.jpg"
+                    alt=""
+                  />
+                  <img
+                    className="logo-image-small"
+                    src="images/logo3.jpg"
+                    alt=""
+                  />
+                  <img
+                    className="logo-image-small"
+                    src="images/logo4.jpg"
+                    alt=""
+                  />
+                </div>
               </div>
               <div className="ml-auto">
                 <Nav>
@@ -56,7 +79,7 @@ function App() {
                     <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
                       <Link
                         className="dropdown-item"
-                        to="#signOut"
+                        to="/"
                         onClick={signOutHandler}
                       >
                         Sign out
@@ -101,7 +124,51 @@ function App() {
           </Container>
         </main>
         <footer>
-          <div className="text-center">All rights reserved.</div>
+          <div className="contact-us">
+            <Row className="text-center">
+              <strong>
+                <u>Our Team</u>
+              </strong>
+            </Row>
+            <Row className="justify-content-md-center mt-2">
+              <Col xs lg="3">
+                <div className="float-end">
+                  <strong>Product team:</strong>
+                  <ul>
+                    <li>
+                      Mahesh Jain (su72kh@gmail.com)
+                      <br></br>
+                      Dimapur, Nagaland
+                    </li>
+                  </ul>
+                </div>
+              </Col>
+              <Col xs lg="3">
+                <div className="float-start">
+                  <strong>Technical team:</strong>
+                  <ul>
+                    <li>
+                      Atishay Jain (atishayjain740@gmail.com)
+                      <br></br>
+                      Dimapur, Nagaland
+                    </li>
+                    <li>
+                      Kashish Nagpal (kashish2803@gmail.com)
+                      <br></br>
+                      New Delhi
+                    </li>
+                  </ul>
+                </div>
+              </Col>
+            </Row>
+          </div>
+          <div className="text-center footer">
+            Powered by: Global Digambar Jain Mahasabha, Rashtriya Jain Sanghatan
+            <br></br>
+            <img className="logo-image" src="images/logo2.jpg" alt="" />
+            <img className="logo-image" src="images/logo3.jpg" alt="" />
+            <img className="logo-image" src="images/logo4.jpg" alt="" />
+          </div>
         </footer>
       </div>
     </BrowserRouter>

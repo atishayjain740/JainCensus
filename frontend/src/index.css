@@ -11,6 +11,43 @@ main {
   flex: 1;
 }
 
+ul {
+  padding-left: 15px;
+}
+
+.footer {
+  background-color: #222328;
+  color: #737477;
+  padding: 5px;
+  font-size: 12px;
+}
+
+.main-logo {
+  width: 35px;
+  height: 23.5px;
+}
+
+.contact-us {
+  background-color: #222328;
+  color: lightgray;
+  padding: 5px;
+  margin-top: 10px;
+  border-bottom: 1px solid #737477;
+  font-size: 14px;
+}
+
+.logo-image-small {
+  width: 15px;
+  height: 15px;
+  margin: 1px;
+}
+
+.logo-image {
+  width: 20px;
+  height: 20px;
+  margin: 4px;
+}
+
 .site-container {
   min-height: 100vh;
 }
@@ -24,7 +61,7 @@ main {
 }
 
 .img-large {
-  width: 100%;
+  width: 80%;
 }
 
 .checkout-steps > div {
@@ -42,22 +79,25 @@ main {
   max-width: 470px;
   height: 275px;
   max-height: 275px;
-  display: inline-block;
+  border-width: 2px;
+  border-color: #faf9f6;
   border-radius: 15px;
+  border-style: solid;
+  display: inline-block;
 }
 
 .id-header {
-  background-color: #d3d3d3;
   border-radius: 15px 15px 0px 0px;
   background-color: #faf9f6;
 }
 
 .id-title {
   color: red;
-  font-size: 22;
+  font-size: 18px !important;
   font-weight: 900;
   margin: 0;
   padding: 0;
+  text-align: center;
 }
 
 .id-title-info {

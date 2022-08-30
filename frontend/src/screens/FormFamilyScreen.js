@@ -73,7 +73,15 @@ export default function FormFamilyScreen() {
               value={numMembers}
               type="number"
               required
-              onChange={(e) => setNumMembers(e.target.value)}
+              min="0"
+              onWheel={(e) => e.target.blur()}
+              onChange={(e) => {
+                var num = e.target.value.match(/^\d+$/);
+                if (num === null) {
+                  e.target.value = '';
+                }
+                setNumMembers(e.target.value);
+              }}
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="fatherName">
@@ -85,8 +93,8 @@ export default function FormFamilyScreen() {
               onChange={(e) => setFatherName(e.target.value)}
             />
           </Form.Group>
-          {basicFormInfo.gender == 'Female' &&
-          basicFormInfo.married == 'Yes' ? (
+          {basicFormInfo.gender === 'Female' &&
+          basicFormInfo.married === 'Yes' ? (
             <Form.Group className="mb-3" controlId="partnerName">
               <FormLabel>Husband's Name</FormLabel>
               <span className="text-danger">*</span>
@@ -99,7 +107,8 @@ export default function FormFamilyScreen() {
           ) : (
             ''
           )}
-          {basicFormInfo.gender == 'Male' && basicFormInfo.married == 'Yes' ? (
+          {basicFormInfo.gender === 'Male' &&
+          basicFormInfo.married === 'Yes' ? (
             <Form.Group className="mb-3" controlId="partnerName">
               <FormLabel>Wife's Name</FormLabel>
               <span className="text-danger">*</span>
@@ -131,7 +140,14 @@ export default function FormFamilyScreen() {
               className="phone-number"
               value={headNumber}
               required
-              onChange={(e) => setHeadNumber(e.target.value)}
+              onWheel={(e) => e.target.blur()}
+              onChange={(e) => {
+                var num = e.target.value.match(/^\d+$/);
+                if (num === null) {
+                  e.target.value = '';
+                }
+                setHeadNumber(e.target.value);
+              }}
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="house">
@@ -161,7 +177,14 @@ export default function FormFamilyScreen() {
               value={numVehicles}
               type="number"
               required
-              onChange={(e) => setNumVehicles(e.target.value)}
+              onWheel={(e) => e.target.blur()}
+              onChange={(e) => {
+                var num = e.target.value.match(/^\d+$/);
+                if (num === null) {
+                  e.target.value = '';
+                }
+                setNumVehicles(e.target.value);
+              }}
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="economicClass">

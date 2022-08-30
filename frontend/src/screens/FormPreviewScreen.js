@@ -48,7 +48,7 @@ export default function FormPreviewScreen() {
 
   return (
     <div>
-      <Helmet>Payment</Helmet>
+      <Helmet>Preview</Helmet>
       <CheckOutSteps step1 step2 step3 step4 step5></CheckOutSteps>
       <div className="container small-container">
         <h1 className="my-3">Preview</h1>
@@ -72,9 +72,9 @@ export default function FormPreviewScreen() {
             Submit
           </Button>
         </Col>
-        <div id="idcard" style={{ display: 'inline-block' }}>
+        <span id="idcard" style={{ display: 'inline-block' }}>
           <IdCard form={form} />
-        </div>
+        </span>
       </div>
     </div>
   );

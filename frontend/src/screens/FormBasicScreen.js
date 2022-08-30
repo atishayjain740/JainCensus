@@ -7,6 +7,8 @@ import { Store } from '../Store';
 import { useNavigate } from 'react-router-dom';
 import CheckOutSteps from '../components/CheckOutSteps';
 import formData from '../formData';
+import formDataCountry from '../formDataCountry';
+import formDataState from '../formDataState';
 
 export default function FormBasicScreen() {
   const navigate = useNavigate();
@@ -20,7 +22,9 @@ export default function FormBasicScreen() {
   const [gender, setGender] = useState(basicFormInfo.gender || '');
   const [dob, setDob] = useState(basicFormInfo.dob || '');
   const [phoneNumber, setPhoneNumber] = useState(
-    basicFormInfo.phoneNumber || userInfo.phoneNumber || ''
+    (basicFormInfo && basicFormInfo.phoneNumber) ||
+      (userInfo && userInfo.phoneNumber) ||
+      ''
   );
   const [emergencyNumber, setEmergencyNumber] = useState(
     basicFormInfo.emergencyNumber || ''
@@ -28,9 +32,11 @@ export default function FormBasicScreen() {
   const [aadhar, setAadhar] = useState(basicFormInfo.aadhar || '');
   const [email, setEmail] = useState(basicFormInfo.setEmail || '');
   const [address, setAddress] = useState(basicFormInfo.address || '');
+  const [country, setCountry] = useState(basicFormInfo.country || 'India');
+  const [indState, setIndState] = useState(basicFormInfo.indState || '');
+  const [district, setDistrict] = useState(basicFormInfo.district || '');
   const [city, setCity] = useState(basicFormInfo.city || '');
   const [postalCode, setPostalCode] = useState(basicFormInfo.postalCode || '');
-  const [country, setCountry] = useState(basicFormInfo.country || '');
   const [bloodGroup, setBloodGroup] = useState(basicFormInfo.bloodGroup || '');
   const [educationQualification, setEducationQualification] = useState(
     basicFormInfo.educationQualification || ''
@@ -66,6 +72,8 @@ export default function FormBasicScreen() {
         city,
         postalCode,
         country,
+        indState,
+        district,
         bloodGroup,
         educationQualification,
         occupation,
@@ -127,7 +135,14 @@ export default function FormBasicScreen() {
               className="phone-number"
               value={phoneNumber}
               required
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onWheel={(e) => e.target.blur()}
+              onChange={(e) => {
+                var num = e.target.value.match(/^\d+$/);
+                if (num === null) {
+                  e.target.value = '';
+                }
+                setPhoneNumber(e.target.value);
+              }}
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="emergencyNumber">
@@ -138,7 +153,14 @@ export default function FormBasicScreen() {
               className="phone-number"
               value={emergencyNumber}
               required
-              onChange={(e) => setEmergencyNumber(e.target.value)}
+              onWheel={(e) => e.target.blur()}
+              onChange={(e) => {
+                var num = e.target.value.match(/^\d+$/);
+                if (num === null) {
+                  e.target.value = '';
+                }
+                setEmergencyNumber(e.target.value);
+              }}
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="aadhar">
@@ -149,7 +171,14 @@ export default function FormBasicScreen() {
               className="phone-number"
               value={aadhar}
               required
-              onChange={(e) => setAadhar(e.target.value)}
+              onWheel={(e) => e.target.blur()}
+              onChange={(e) => {
+                var num = e.target.value.match(/^\d+$/);
+                if (num === null) {
+                  e.target.value = '';
+                }
+                setAadhar(e.target.value);
+              }}
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="email">
@@ -168,6 +197,72 @@ export default function FormBasicScreen() {
               onChange={(e) => setAddress(e.target.value)}
             />
           </Form.Group>
+          <Form.Group className="mb-3" controlId="country">
+            <Form.Label>Country</Form.Label>
+            <span className="text-danger">*</span>
+            <Form.Control
+              as="select"
+              default=""
+              value={country}
+              required
+              onChange={(e) => {
+                if (e.target.value !== 'India') {
+                  setIndState('');
+                  setDistrict('');
+                }
+                setCountry(e.target.value);
+              }}
+            >
+              <option value="" disabled>
+                Choose an option
+              </option>
+              {formDataCountry.country.map((country) => (
+                <option value={country.name}>{country.name}</option>
+              ))}
+            </Form.Control>
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="indState">
+            <Form.Label>State</Form.Label>
+            <span className="text-danger">*</span>
+            <Form.Control
+              as="select"
+              default=""
+              disabled={country !== 'India'}
+              value={indState}
+              required
+              onChange={(e) => setIndState(e.target.value)}
+            >
+              <option value="" disabled>
+                Choose an option
+              </option>
+              {formDataState.states.map((state) => (
+                <option value={state.state}>{state.state}</option>
+              ))}
+            </Form.Control>
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="district">
+            <Form.Label>District</Form.Label>
+            <span className="text-danger">*</span>
+            <Form.Control
+              as="select"
+              default=""
+              disabled={country !== 'India'}
+              value={district}
+              required
+              onChange={(e) => setDistrict(e.target.value)}
+            >
+              <option value="" disabled>
+                Choose an option
+              </option>
+              {formDataState.states.find((o) => o.state === indState)
+                ? formDataState.states
+                    .find((o) => o.state === indState)
+                    .districts.map((district) => (
+                      <option value={district}>{district}</option>
+                    ))
+                : ''}
+            </Form.Control>
+          </Form.Group>
           <Form.Group className="mb-3" controlId="city">
             <FormLabel>City</FormLabel>
             <span className="text-danger">*</span>
@@ -185,16 +280,14 @@ export default function FormBasicScreen() {
               className="phone-number"
               value={postalCode}
               required
-              onChange={(e) => setPostalCode(e.target.value)}
-            />
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="country">
-            <FormLabel>Country</FormLabel>
-            <span className="text-danger">*</span>
-            <Form.Control
-              value={country}
-              required
-              onChange={(e) => setCountry(e.target.value)}
+              onWheel={(e) => e.target.blur()}
+              onChange={(e) => {
+                var num = e.target.value.match(/^\d+$/);
+                if (num === null) {
+                  e.target.value = '';
+                }
+                setPostalCode(e.target.value);
+              }}
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="bloodGroup">
@@ -263,7 +356,7 @@ export default function FormBasicScreen() {
               name="married"
               required
               value="Yes"
-              checked={married == 'Yes'}
+              checked={married === 'Yes'}
               inline
               label="Yes"
               type="radio"
@@ -273,7 +366,7 @@ export default function FormBasicScreen() {
               name="married"
               required
               value="No"
-              checked={married == 'No'}
+              checked={married === 'No'}
               inline
               label="No"
               type="radio"
