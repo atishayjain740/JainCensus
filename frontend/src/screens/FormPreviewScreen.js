@@ -33,7 +33,10 @@ export default function FormPreviewScreen() {
 
       ctxDispatch({
         type: 'USER_SUBMIT_FORM',
-        payload: data.formSubmitted,
+        payload: {
+          formSubmitted: data.formSubmitted,
+          generatedId: data.generatedId,
+        },
       });
 
       navigate('/formSubmittedScreen');

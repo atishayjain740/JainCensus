@@ -51,7 +51,9 @@ export default function ViewIdCard() {
   }, [id, navigate]);
 
   return loading ? (
-    <LoadingBox />
+    <div className="container small-container text-center">
+      <LoadingBox />
+    </div>
   ) : error ? (
     <MessageBox variant="danger">{error}</MessageBox>
   ) : (

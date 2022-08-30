@@ -1,7 +1,7 @@
 import express from 'express';
 import User from '../models/userModel.js';
 import bcrypt from 'bcryptjs';
-import { generateToken } from '../utils.js';
+import { generateToken, generateFormID } from '../utils.js';
 import expressAsyncHandler from 'express-async-handler';
 import Form from '../models/formModel.js';
 import { ObjectId } from 'mongodb';
@@ -53,11 +53,17 @@ userRouter.post(
 userRouter.post(
   '/formSubmit',
   expressAsyncHandler(async (req, res) => {
+    // Generate ID. Add to form. TODO
+    const formCount = await Form.count();
+    var formData = req.body.formData;
+    const id = generateFormID(req.body.phoneNumber, formData, formCount);
+    formData.basicFormInfo['generatedId'] = id;
+
     const newForm = new Form({
       name: req.body.name,
       phoneNumber: req.body.phoneNumber,
       isAdmin: req.body.isAdmin,
-      form: req.body.formData,
+      form: formData,
     });
     const form = await newForm.save();
     const user = await User.updateOne(
@@ -67,6 +73,7 @@ userRouter.post(
 
     res.send({
       formSubmitted: true,
+      generatedId: id,
     });
   })
 );

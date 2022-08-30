@@ -17,15 +17,30 @@ export default function IdCard(props) {
               </Col>
               <Col xs={10} className="d-flex justify-content-center my-auto">
                 <div>
-                  <p className="id-title">GLOBAL DIGAMBAR JAIN MAHASABHA</p>
-                  <p className="id-title">RASHTRIYA JAIN SANGHATAN</p>
-                  {/*<p className="id-title-info">
-                    REGD. NO. RS. 2305 Dt. 30.08.1993
+                  <p className="id-title">
+                    विश्व जैन जनगणना (WORLD JAIN CENSUS)
                   </p>
                   <p className="id-title-info">
-                    JAIN TEMPLE ROAD, DIMAPUR - 797112 : NAGALAND
+                    Powered by: Global Digambar Jain Mahasabha, Rashtriya Jain
+                    Sanghatan
                   </p>
-  <p className="id-title-info">03862-227504</p>*/}
+                  <div className="text-center">
+                    <img
+                      className="logo-image-small mx-2"
+                      src="images/logo2.jpg"
+                      alt=""
+                    />
+                    <img
+                      className="logo-image-small mx-2"
+                      src="images/logo3.jpg"
+                      alt=""
+                    />
+                    <img
+                      className="logo-image-small mx-2"
+                      src="images/logo4.jpg"
+                      alt=""
+                    />
+                  </div>
                 </div>
               </Col>
             </Row>
@@ -42,7 +57,7 @@ export default function IdCard(props) {
                     <p className="id-body-info">:</p>
                   </Col>
                   <Col xs={8}>
-                    <p className="id-body-info">
+                    <p className="id-body-info id-para">
                       {form.basicFormInfo['fullName']}
                     </p>
                   </Col>
@@ -55,7 +70,9 @@ export default function IdCard(props) {
                     <p className="id-body-info">:</p>
                   </Col>
                   <Col xs={8}>
-                    <p className="id-body-info">{form.basicFormInfo['dob']}</p>
+                    <p className="id-body-info id-para">
+                      {form.basicFormInfo['dob']}
+                    </p>
                   </Col>
                 </Row>
                 <Row>
@@ -66,7 +83,7 @@ export default function IdCard(props) {
                     <p className="id-body-info">:</p>
                   </Col>
                   <Col xs={8}>
-                    <p className="id-body-info">
+                    <p className="id-body-info id-para">
                       {form.basicFormInfo['gender']}
                     </p>
                   </Col>
@@ -79,7 +96,11 @@ export default function IdCard(props) {
                     <p className="id-body-info">:</p>
                   </Col>
                   <Col xs={8}>
-                    <p className="id-body-info"></p>
+                    <p className="id-body-info id-para">
+                      {form.basicFormInfo['generatedId']
+                        ? form.basicFormInfo['generatedId']
+                        : ''}
+                    </p>
                   </Col>
                 </Row>
               </Col>
@@ -121,7 +142,7 @@ export default function IdCard(props) {
                       <p className="id-body-info2">:</p>
                     </Col>
                     <Col xs={7}>
-                      <p className="id-body-info2">
+                      <p className="id-body-info2 id-para">
                         {form.familyFormInfo['partnerName']}
                       </p>
                     </Col>
@@ -135,7 +156,7 @@ export default function IdCard(props) {
                       <p className="id-body-info2">:</p>
                     </Col>
                     <Col xs={7}>
-                      <p className="id-body-info2">
+                      <p className="id-body-info2 id-para">
                         {form.familyFormInfo['fatherName']}
                       </p>
                     </Col>
@@ -149,7 +170,7 @@ export default function IdCard(props) {
                     <p className="id-body-info2">:</p>
                   </Col>
                   <Col xs={7}>
-                    <p className="id-body-info2">
+                    <p className="id-body-info2 id-para">
                       {form.basicFormInfo['address']}
                     </p>
                   </Col>
@@ -162,7 +183,7 @@ export default function IdCard(props) {
                     <p className="id-body-info2">:</p>
                   </Col>
                   <Col xs={7}>
-                    <p className="id-body-info2">
+                    <p className="id-body-info2 id-para">
                       {form.basicFormInfo['phoneNumber']}
                     </p>
                   </Col>
@@ -175,7 +196,7 @@ export default function IdCard(props) {
                     <p className="id-body-info2">:</p>
                   </Col>
                   <Col xs={7}>
-                    <p className="id-body-info2">
+                    <p className="id-body-info2 id-para ">
                       {form.basicFormInfo['emergencyNumber']}
                     </p>
                   </Col>
@@ -188,24 +209,28 @@ export default function IdCard(props) {
                     <p className="id-body-info2">:</p>
                   </Col>
                   <Col xs={7}>
-                    <p className="id-body-info2">
+                    <p className="id-body-info2 id-para">
                       {form.basicFormInfo['bloodGroup']}
                     </p>
                   </Col>
                 </Row>
-                <Row>
-                  <Col xs={4}>
-                    <p className="id-body-info2">Aadhar No.</p>
-                  </Col>
-                  <Col xs={1}>
-                    <p className="id-body-info2">:</p>
-                  </Col>
-                  <Col xs={7}>
-                    <p className="id-body-info2">
-                      {form.basicFormInfo['aadhar']}
-                    </p>
-                  </Col>
-                </Row>
+                {form.basicFormInfo['aadhar'] !== '' ? (
+                  <Row>
+                    <Col xs={4}>
+                      <p className="id-body-info2">Aadhar No.</p>
+                    </Col>
+                    <Col xs={1}>
+                      <p className="id-body-info2 id-para">:</p>
+                    </Col>
+                    <Col xs={7}>
+                      <p className="id-body-info2">
+                        {form.basicFormInfo['aadhar']}
+                      </p>
+                    </Col>
+                  </Row>
+                ) : (
+                  ''
+                )}
                 <Row>
                   <Col xs={4}>
                     <p className="id-body-info2">Date of Issue</p>
@@ -214,7 +239,7 @@ export default function IdCard(props) {
                     <p className="id-body-info2">:</p>
                   </Col>
                   <Col xs={7}>
-                    <p className="id-body-info2">{getCurrentDate()}</p>
+                    <p className="id-body-info2 id-para">{getCurrentDate()}</p>
                   </Col>
                 </Row>
               </Col>

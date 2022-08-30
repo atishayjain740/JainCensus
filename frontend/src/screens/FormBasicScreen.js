@@ -58,6 +58,10 @@ export default function FormBasicScreen() {
   const submitHandler = (e) => {
     e.preventDefault();
 
+    let countryCode = formDataCountry.country.find(
+      (o) => o.name === country
+    ).code;
+
     ctxDispatch({
       type: 'SAVE_FORM_BASIC',
       payload: {
@@ -72,6 +76,7 @@ export default function FormBasicScreen() {
         city,
         postalCode,
         country,
+        countryCode,
         indState,
         district,
         bloodGroup,
@@ -163,24 +168,6 @@ export default function FormBasicScreen() {
               }}
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="aadhar">
-            <FormLabel>Aadhar No.</FormLabel>
-            <span className="text-danger">*</span>
-            <Form.Control
-              type="number"
-              className="phone-number"
-              value={aadhar}
-              required
-              onWheel={(e) => e.target.blur()}
-              onChange={(e) => {
-                var num = e.target.value.match(/^\d+$/);
-                if (num === null) {
-                  e.target.value = '';
-                }
-                setAadhar(e.target.value);
-              }}
-            />
-          </Form.Group>
           <Form.Group className="mb-3" controlId="email">
             <FormLabel>Email</FormLabel>
             <Form.Control
@@ -193,6 +180,7 @@ export default function FormBasicScreen() {
             <span className="text-danger">*</span>
             <Form.Control
               value={address}
+              maxLength="50"
               required
               onChange={(e) => setAddress(e.target.value)}
             />
@@ -209,6 +197,7 @@ export default function FormBasicScreen() {
                 if (e.target.value !== 'India') {
                   setIndState('');
                   setDistrict('');
+                  setAadhar('');
                 }
                 setCountry(e.target.value);
               }}
@@ -287,6 +276,25 @@ export default function FormBasicScreen() {
                   e.target.value = '';
                 }
                 setPostalCode(e.target.value);
+              }}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="aadhar">
+            <FormLabel>Aadhar No.</FormLabel>
+            <span className="text-danger">*</span>
+            <Form.Control
+              type="number"
+              className="phone-number"
+              disabled={country !== 'India'}
+              value={aadhar}
+              required
+              onWheel={(e) => e.target.blur()}
+              onChange={(e) => {
+                var num = e.target.value.match(/^\d+$/);
+                if (num === null) {
+                  e.target.value = '';
+                }
+                setAadhar(e.target.value);
               }}
             />
           </Form.Group>

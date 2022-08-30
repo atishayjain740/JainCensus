@@ -94,13 +94,21 @@ function reducer(state, action) {
     case 'USER_SUBMIT_FORM': {
       var info = {
         ...state.userInfo,
-        formSubmitted: JSON.stringify(action.payload),
+        formSubmitted: JSON.stringify(action.payload.formSubmitted),
+      };
+
+      var basicInfo = {
+        ...state.form.basicFormInfo,
+        generatedId: JSON.stringify(action.payload.generatedId),
       };
 
       localStorage.setItem('userInfo', JSON.stringify(info));
+      localStorage.setItem('basicFormInfo', JSON.stringify(basicInfo));
+
       return {
         ...state,
         userInfo: info,
+        basicFormInfo: basicInfo,
       };
     }
     default:

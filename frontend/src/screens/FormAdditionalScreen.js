@@ -7,6 +7,7 @@ import { Store } from '../Store';
 import { useNavigate } from 'react-router-dom';
 import CheckOutSteps from '../components/CheckOutSteps';
 import formData from '../formData';
+import formDataGotras from '../formDataGotras';
 
 export default function FormAdditionalScreen() {
   const navigate = useNavigate();
@@ -55,14 +56,17 @@ export default function FormAdditionalScreen() {
     if (!gotr) {
       setKnownGotr('');
       setOtherGotr('');
-    } else if (formData.gotras[jati] && formData.gotras[jati].includes(gotr)) {
+    } else if (
+      formDataGotras.gotras[jati] &&
+      formDataGotras.gotras[jati].includes(gotr)
+    ) {
       setKnownGotr(gotr);
       setOtherGotr('');
     } else {
       setKnownGotr('others');
       setOtherGotr(gotr);
     }
-  }, [userInfo, navigate.additionalFormInfo]);
+  }, [userInfo, navigate, additionalFormInfo]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -201,11 +205,11 @@ export default function FormAdditionalScreen() {
                 Choose an option
               </option>
 
-              {!formData.gotras.hasOwnProperty(
+              {!formDataGotras.gotras.hasOwnProperty(
                 knownJati === 'others' ? otherJati : knownJati
               )
                 ? ''
-                : formData.gotras[
+                : formDataGotras.gotras[
                     knownJati === 'others' ? otherJati : knownJati
                   ].map((gotr) => <option value={gotr}>{gotr}</option>)}
               <option value="others">अन्य/Others</option>

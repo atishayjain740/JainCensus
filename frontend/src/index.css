@@ -152,6 +152,10 @@ ul {
   text-align: center;
 }
 
+.id-para {
+  word-wrap: break-word;
+}
+
 .phone-number::-webkit-inner-spin-button,
 .phone-number::-webkit-outer-spin-button {
   -webkit-appearance: none;
