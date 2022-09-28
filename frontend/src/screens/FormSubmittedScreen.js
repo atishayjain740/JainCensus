@@ -76,6 +76,7 @@ export default function FormSubmittedScreen() {
     html2canvas(input, {
       imageTimeout: 15000,
       scale: 2,
+      useCORS: true,
       backgroundColor: '#FFFFFF',
     }).then((canvas) => {
       canvas.style.display = 'none';
