@@ -134,7 +134,7 @@ function App() {
             </Row>
             <Row className="justify-content-md-center mt-2 mx-0">
               <Col xs lg="3">
-                <div className="float-end">
+                <div className="float-start">
                   <strong>Product team:</strong>
                   <ul>
                     <li>

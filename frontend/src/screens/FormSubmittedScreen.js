@@ -74,10 +74,6 @@ export default function FormSubmittedScreen() {
   const downloadHandler = () => {
     const input = document.getElementById('idcard');
     html2canvas(input, {
-      imageTimeout: 15000,
-      scale: 2,
-      useCORS: true,
-      windowWidth: '1280px',
       backgroundColor: '#FFFFFF',
     }).then((canvas) => {
       canvas.style.display = 'none';
