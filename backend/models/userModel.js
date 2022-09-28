@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema(
     isAdmin: { type: Boolean, required: true, default: false },
     verified: { type: Boolean, required: true, default: false },
     formSubmitted: { type: Boolean, required: false, default: false },
-    formId: { type: String, required: false, unique: true },
+    formId: { type: String, required: false },
   },
   {
     timestamps: true,
