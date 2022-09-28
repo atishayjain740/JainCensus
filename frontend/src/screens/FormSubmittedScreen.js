@@ -77,6 +77,7 @@ export default function FormSubmittedScreen() {
       imageTimeout: 15000,
       scale: 2,
       useCORS: true,
+      windowWidth: '1280px',
       backgroundColor: '#FFFFFF',
     }).then((canvas) => {
       canvas.style.display = 'none';
