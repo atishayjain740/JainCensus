@@ -6,7 +6,9 @@ const userSchema = new mongoose.Schema(
     phoneNumber: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     isAdmin: { type: Boolean, required: true, default: false },
+    verified: { type: Boolean, required: true, default: false },
     formSubmitted: { type: Boolean, required: false, default: false },
+    formId: { type: String, required: false, unique: true },
   },
   {
     timestamps: true,

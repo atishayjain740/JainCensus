@@ -201,19 +201,6 @@ export default function IdCard(props) {
                     </p>
                   </Col>
                 </Row>
-                <Row>
-                  <Col xs={4}>
-                    <p className="id-body-info2">Blood Group</p>
-                  </Col>
-                  <Col xs={1}>
-                    <p className="id-body-info2">:</p>
-                  </Col>
-                  <Col xs={7}>
-                    <p className="id-body-info2 id-para">
-                      {form.basicFormInfo['bloodGroup']}
-                    </p>
-                  </Col>
-                </Row>
                 {form.basicFormInfo['aadhar'] !== '' ? (
                   <Row>
                     <Col xs={4}>

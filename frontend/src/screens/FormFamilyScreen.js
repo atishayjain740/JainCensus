@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 import { Store } from '../Store';
 import { useNavigate } from 'react-router-dom';
 import CheckOutSteps from '../components/CheckOutSteps';
-import formData from '../formData';
+import formData from '../formdata/formData';
 
 export default function FormFamilyScreen() {
   const navigate = useNavigate();
@@ -34,8 +34,19 @@ export default function FormFamilyScreen() {
   );
 
   useEffect(() => {
+    // If the user is not logged in or not verified. Go to sign in screen.
     if (!userInfo) {
-      navigate('/signin?redirect=/formFamilylInformation');
+      navigate('/signin?redirect=/formFamilyInformation');
+      return;
+    } else if (userInfo && userInfo.verified !== true) {
+      navigate('/signin?redirect=/formFamilyInformation');
+      return;
+    }
+
+    // If form already submitted. Go to form submitted screen.
+    if (userInfo['formSubmitted']) {
+      navigate('/formSubmittedScreen');
+      return;
     }
   }, [userInfo, navigate]);
 
@@ -149,6 +160,10 @@ export default function FormFamilyScreen() {
                 setHeadNumber(e.target.value);
               }}
             />
+            <Form.Text muted>
+              Please provide a valid number. You will recieve a confirmation
+              message on this number.
+            </Form.Text>
           </Form.Group>
           <Form.Group className="mb-3" controlId="house">
             <Form.Label>House</Form.Label>

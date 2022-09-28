@@ -28,8 +28,19 @@ export default function FormPhotoScreen() {
   const [output, setOutput] = useState(null);
 
   useEffect(() => {
+    // If the user is not logged in or not verified. Go to sign in screen.
     if (!userInfo) {
       navigate('/signin?redirect=/formPhoto');
+      return;
+    } else if (userInfo && userInfo.verified !== true) {
+      navigate('/signin?redirect=/formPhoto');
+      return;
+    }
+
+    // If form already submitted. Go to form submitted screen.
+    if (userInfo['formSubmitted']) {
+      navigate('/formSubmittedScreen');
+      return;
     }
   }, [userInfo, navigate]);
 

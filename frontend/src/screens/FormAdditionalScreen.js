@@ -6,8 +6,8 @@ import Button from 'react-bootstrap/Button';
 import { Store } from '../Store';
 import { useNavigate } from 'react-router-dom';
 import CheckOutSteps from '../components/CheckOutSteps';
-import formData from '../formData';
-import formDataGotras from '../formDataGotras';
+import formData from '../formdata/formData';
+import formDataGotras from '../formdata/formDataGotras';
 
 export default function FormAdditionalScreen() {
   const navigate = useNavigate();
@@ -32,8 +32,18 @@ export default function FormAdditionalScreen() {
   );
 
   useEffect(() => {
+    // If the user is not logged in or not verified. Go to sign in screen.
     if (!userInfo) {
       navigate('/signin?redirect=/formAdditionalInformation');
+      return;
+    } else if (userInfo && userInfo.verified !== true) {
+      navigate('/signin?redirect=/formAdditionalInformation');
+      return;
+    }
+
+    // If form already submitted. Go to form submitted screen.
+    if (userInfo['formSubmitted']) {
+      navigate('/formSubmittedScreen');
       return;
     }
 

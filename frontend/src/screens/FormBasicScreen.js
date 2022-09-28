@@ -6,9 +6,9 @@ import Button from 'react-bootstrap/Button';
 import { Store } from '../Store';
 import { useNavigate } from 'react-router-dom';
 import CheckOutSteps from '../components/CheckOutSteps';
-import formData from '../formData';
-import formDataCountry from '../formDataCountry';
-import formDataState from '../formDataState';
+import formData from '../formdata/formData';
+import formDataCountry from '../formdata/formDataCountry';
+import formDataState from '../formdata/formDataState';
 
 export default function FormBasicScreen() {
   const navigate = useNavigate();
@@ -45,10 +45,16 @@ export default function FormBasicScreen() {
   const [married, setMarried] = useState(basicFormInfo.married || '');
 
   useEffect(() => {
+    // If the user is not logged in or not verified. Go to sign in screen.
     if (!userInfo) {
       navigate('/signin?redirect=/formBasicInformation');
       return;
+    } else if (userInfo && userInfo.verified !== true) {
+      navigate('/signin?redirect=/formBasicInformation');
+      return;
     }
+
+    // If form already submitted. Go to form submitted screen.
     if (userInfo['formSubmitted']) {
       navigate('/formSubmittedScreen');
       return;
@@ -95,6 +101,11 @@ export default function FormBasicScreen() {
       <CheckOutSteps step1></CheckOutSteps>
       <div className="container small-container">
         <h1 className="my-3">Basic Information</h1>
+        <p className="text-danger">
+          Please provide valid information in the form. Filling of all the
+          required fields are mandatory.
+        </p>
+        <p className="text-danger"></p>
         <Form onSubmit={submitHandler}>
           <Form.Group className="mb-3" controlId="fullName">
             <FormLabel>Full Name</FormLabel>
@@ -300,12 +311,10 @@ export default function FormBasicScreen() {
           </Form.Group>
           <Form.Group className="mb-3" controlId="bloodGroup">
             <Form.Label>Blood Group</Form.Label>
-            <span className="text-danger">*</span>
             <Form.Control
               as="select"
               default=""
               value={bloodGroup}
-              required
               onChange={(e) => setBloodGroup(e.target.value)}
             >
               <option value="" disabled>

@@ -21,6 +21,7 @@ import FormPreviewScreen from './screens/FormPreviewScreen';
 import ViewIdCardScreen from './screens/ViewIdCardScreen';
 import Row from 'react-bootstrap/esm/Row';
 import Col from 'react-bootstrap/esm/Col';
+import EnterOtpScreen from './screens/EnterOtpScreen';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -101,6 +102,7 @@ function App() {
               <Route path="/" element={<HomeScreen />} />
               <Route path="/signin" element={<SignInScreen />} />
               <Route path="/signup" element={<SignUpScreen />} />
+              <Route path="/enterOtp" element={<EnterOtpScreen />} />
               <Route
                 path="/formBasicInformation"
                 element={<FormBasicScreen />}
@@ -124,13 +126,13 @@ function App() {
           </Container>
         </main>
         <footer>
-          <div className="contact-us">
-            <Row className="text-center">
+          <Col className="contact-us">
+            <Row className="text-center mx-0">
               <strong>
                 <u>Our Team</u>
               </strong>
             </Row>
-            <Row className="justify-content-md-center mt-2">
+            <Row className="justify-content-md-center mt-2 mx-0">
               <Col xs lg="3">
                 <div className="float-end">
                   <strong>Product team:</strong>
@@ -161,7 +163,7 @@ function App() {
                 </div>
               </Col>
             </Row>
-          </div>
+          </Col>
           <div className="text-center footer">
             Powered by: Global Digambar Jain Mahasabha, Rashtriya Jain Sanghatan
             <br></br>

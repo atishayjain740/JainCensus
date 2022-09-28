@@ -31,6 +31,19 @@ function reducer(state, action) {
 
       return { ...state, userInfo: action.payload };
     }
+    case 'USER_VERIFIED': {
+      let info = {
+        ...state.userInfo,
+        verified: true,
+      };
+
+      localStorage.setItem('userInfo', JSON.stringify(info));
+
+      return {
+        ...state,
+        userInfo: info,
+      };
+    }
     case 'USER_SIGNOUT': {
       localStorage.removeItem('userInfo');
       localStorage.removeItem('basicFormInfo');
@@ -92,12 +105,13 @@ function reducer(state, action) {
       };
     }
     case 'USER_SUBMIT_FORM': {
-      var info = {
+      let info = {
         ...state.userInfo,
-        formSubmitted: JSON.stringify(action.payload.formSubmitted),
+        formSubmitted: action.payload.formSubmitted,
+        formId: action.payload.formId,
       };
 
-      var basicInfo = {
+      let basicInfo = {
         ...state.form.basicFormInfo,
         generatedId: JSON.stringify(action.payload.generatedId),
       };

@@ -39,7 +39,8 @@ export default function SignUpScreen() {
       });
 
       ctxDispatch({ type: 'USER_SIGNIN', payload: data });
-      navigate(redirect || '/');
+      var redirectString = redirect !== '/' ? '?redirect=' + redirect : '';
+      navigate('/enterOtp' + redirectString);
     } catch (err) {
       toast.error(getError(err));
     }
@@ -47,7 +48,12 @@ export default function SignUpScreen() {
 
   useEffect(() => {
     if (userInfo) {
-      navigate(redirect);
+      if (userInfo.verified) {
+        navigate(redirect);
+      } else {
+        var redirectString = redirect !== '/' ? '?redirect=' + redirect : '';
+        navigate('/enterOtp' + redirectString);
+      }
     }
   }, [navigate, redirect, userInfo]);
 
@@ -86,6 +92,9 @@ export default function SignUpScreen() {
               required
               onChange={(e) => setPassword(e.target.value)}
             />
+            <Form.Text muted>
+              Your password must be 8 characters long.
+            </Form.Text>
           </Form.Group>
           <Form.Group className="mb-3" controlId="confirmPassword">
             <FormLabel>Confirm Password</FormLabel>

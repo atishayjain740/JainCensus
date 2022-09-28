@@ -40,17 +40,23 @@ export default function FormSubmittedScreen() {
   const [formId, setFormId] = useState('');
 
   useEffect(() => {
+    // If the user is not logged in or not verified. Go to sign in screen.
     if (!userInfo) {
       navigate('/signin?redirect=/formSubmittedScreen');
       return;
+    } else if (userInfo && userInfo.verified !== true) {
+      navigate('/signin?redirect=/formSubmittedScreen');
+      return;
     }
+
     if (userInfo.formSubmitted) {
       const fetchData = async () => {
         dispatch({ type: 'FETCH_REQUEST' });
         try {
-          const result = await axios.get(
+          /*const result = await axios.get(
             `/api/users/form/${userInfo.phoneNumber}`
-          );
+          );*/
+          const result = await axios.get(`/api/users/form/${userInfo.formId}`);
           dispatch({ type: 'FETCH_SUCCESS', payload: result.data['form'] });
 
           // Set form id to generate qr code.
@@ -60,6 +66,8 @@ export default function FormSubmittedScreen() {
         }
       };
       fetchData();
+    } else {
+      dispatch({ type: 'FETCH_FAIL', payload: 'Form not filled.' });
     }
   }, [userInfo, navigate]);
 
@@ -68,7 +76,6 @@ export default function FormSubmittedScreen() {
     html2canvas(input, {
       backgroundColor: '#FFFFFF',
     }).then((canvas) => {
-      console.log(canvas);
       canvas.style.display = 'none';
       var image = canvas.toDataURL('png');
       var a = document.createElement('a');

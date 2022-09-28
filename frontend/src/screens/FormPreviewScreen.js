@@ -31,10 +31,17 @@ export default function FormPreviewScreen() {
         formData,
       });
 
+      // Form not submitted.
+      if (!data.success) {
+        toast.error(data.message);
+        return;
+      }
+
       ctxDispatch({
         type: 'USER_SUBMIT_FORM',
         payload: {
           formSubmitted: data.formSubmitted,
+          formId: data.formId,
           generatedId: data.generatedId,
         },
       });
