@@ -177,6 +177,10 @@ export default function FormAdditionalScreen() {
                   setOtherJati('');
                 }
                 setKnownJati(e.target.value);
+
+                // Reset gotr
+                setKnownGotr('');
+                setOtherGotr('');
               }}
             >
               <option value="" disabled>
