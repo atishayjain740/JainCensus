@@ -74,12 +74,14 @@ export default function FormSubmittedScreen() {
   const downloadHandler = () => {
     const input = document.getElementById('idcard');
     html2canvas(input, {
+      imageTimeout: 15000,
+      scale: 2,
       backgroundColor: '#FFFFFF',
     }).then((canvas) => {
       canvas.style.display = 'none';
       var image = canvas.toDataURL('png');
       var a = document.createElement('a');
-      a.setAttribute('download', 'myImage.png');
+      a.setAttribute('download', form.basicFormInfo.generatedId + '.png');
       a.setAttribute('href', image);
       a.click();
     });
