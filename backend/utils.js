@@ -75,6 +75,57 @@ export const sendOTPVerificationSMS = async (newUser, res) => {
   }
 };
 
+export const resendOTPVerificationSMS = async (id, phoneNumber, res) => {
+  try {
+    const require = createRequire(import.meta.url);
+    const otpGenerator = require('otp-generator');
+    var otpGenerated = otpGenerator.generate(6, {
+      upperCaseAlphabets: false,
+      specialChars: false,
+      lowerCaseAlphabets: false,
+    });
+
+    // Hash otp.
+    const hasedOtp = bcrypt.hashSync(otpGenerated);
+
+    const existOTPVerification = await UserOTPVerification.findOne({
+      userId: id,
+    });
+    if (existOTPVerification) {
+      await UserOTPVerification.deleteMany({ userId: id });
+    }
+
+    const newOTPVerification = await new UserOTPVerification({
+      userId: id,
+      otp: hasedOtp,
+      createdAt: Date.now(),
+      expiresAt: Date.now() + 600000,
+    });
+    // Save otp record.
+    await newOTPVerification.save();
+
+    // Send SMS.
+    SendOTPSMS(phoneNumber, otpGenerated);
+
+    // For dev. Write otp to a file.
+    /*const fs = require('fs');
+    fs.writeFileSync(
+      'D:/PracticeProjects/JainCensus/backend/temp/userotp.txt',
+      otpGenerated
+    );*/
+
+    return res.send({
+      success: true,
+      message: 'OTP sent again.',
+    });
+  } catch (error) {
+    res.send({
+      success: false,
+      message: 'Could not send OTP. Try again',
+    });
+  }
+};
+
 const SendOTPSMS = async (number, otp) => {
   /*const senderId = 'AXNDRA';
   const apiKey = 'VHSXkTGCPgNe3HQr';
@@ -107,9 +158,9 @@ const SendOTPSMS = async (number, otp) => {
     '&senderid=Census&accusage=1';
   try {
     const response = await axios.get(url);
-    console.log(response);
+    //console.log(response);
   } catch (error) {
-    console.log(error);
+    //console.log(error);
   }
 };
 
@@ -180,8 +231,8 @@ export const sendConfirmationSMS = async (number, id) => {
     '&senderid=Census&accusage=1';
   try {
     const response = await axios.get(url);
-    console.log(response);
+    //console.log(response);
   } catch (error) {
-    console.log(error);
+    //console.log(error);
   }
 };

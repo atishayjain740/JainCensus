@@ -6,6 +6,7 @@ import {
   generateFormID,
   sendOTPVerificationSMS,
   sendConfirmationSMS,
+  resendOTPVerificationSMS,
 } from '../utils.js';
 import expressAsyncHandler from 'express-async-handler';
 import Form from '../models/formModel.js';
@@ -97,6 +98,21 @@ userRouter.post(
             token: generateToken(newUser),
           });*/
         }
+      });
+    }
+  })
+);
+
+userRouter.post(
+  '/resendOtp',
+  expressAsyncHandler(async (req, res) => {
+    try {
+      let { id, phoneNumber } = req.body;
+      return resendOTPVerificationSMS(id, phoneNumber, res);
+    } catch (err) {
+      res.status(401).send({
+        success: false,
+        message: error.message,
       });
     }
   })

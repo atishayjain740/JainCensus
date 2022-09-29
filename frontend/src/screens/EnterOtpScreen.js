@@ -35,6 +35,24 @@ export default function EnterOtpScreen() {
     }
   };
 
+  const resendOtpHandler = async (e) => {
+    e.preventDefault(); // To prevent from refreshing the page.
+    try {
+      const { data } = await axios.post('/api/users/resendOTP', {
+        id: userInfo._id,
+        phoneNumber: userInfo.phoneNumber,
+      });
+
+      if (data.success) {
+        toast.success(data.message);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (err) {
+      toast.error(getError(err));
+    }
+  };
+
   useEffect(() => {
     if (userInfo && userInfo.verified === true) {
       navigate(redirect);
@@ -48,6 +66,7 @@ export default function EnterOtpScreen() {
           <title>Enter OTP</title>
         </Helmet>
         <h1 className="my-3">Enter OTP</h1>
+        <Form.Text muted>Enter the OTP sent to your phone number</Form.Text>
         <Form onSubmit={submitHandler}>
           <Form.Group className="mb-3" controlId="otp">
             <Form.Control
@@ -65,8 +84,13 @@ export default function EnterOtpScreen() {
               }}
             />
           </Form.Group>
-          <div className="mb-3">
-            <Button type="submit">Submit</Button>
+          <div>
+            <div className="mb-3 float-start">
+              <Button onClick={resendOtpHandler}>Resend OTP</Button>
+            </div>
+            <div className="mb-3 mx-3 float-start">
+              <Button type="submit">Submit</Button>
+            </div>
           </div>
         </Form>
       </Container>
