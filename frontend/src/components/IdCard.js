@@ -132,7 +132,9 @@ export default function IdCard(props) {
           <div className="px-2 py-1">
             <Row>
               <Col xs={9}>
-                {form.basicFormInfo.gender === 'Female' &&
+                {/*
+                // TODO: father's name/ husband's name
+                form.basicFormInfo.gender === 'Female' &&
                 form.basicFormInfo.married === 'Yes' ? (
                   <Row>
                     <Col xs={4}>
@@ -161,7 +163,7 @@ export default function IdCard(props) {
                       </p>
                     </Col>
                   </Row>
-                )}
+                )*/}
                 <Row>
                   <Col xs={4}>
                     <p className="id-body-info2">Address</p>

@@ -13,6 +13,8 @@ export default function EnterOtpScreen() {
   const navigate = useNavigate();
   const { search } = useLocation();
   const redirectInUrl = new URLSearchParams(search).get('redirect');
+  const userId = new URLSearchParams(search).get('id');
+
   const redirect = redirectInUrl ? redirectInUrl : '/';
 
   const [otp, setOtp] = useState('');
@@ -22,12 +24,13 @@ export default function EnterOtpScreen() {
 
   const submitHandler = async (e) => {
     e.preventDefault(); // To prevent from refreshing the page.
+    const id = userId ? userId : userInfo._id;
+
     try {
       const { data } = await axios.post('/api/users/verifyOTP', {
-        userId: userInfo._id,
+        userId: id,
         otp,
       });
-
       ctxDispatch({ type: 'USER_VERIFIED', payload: data });
       navigate(redirect || '/');
     } catch (err) {
@@ -39,7 +42,6 @@ export default function EnterOtpScreen() {
     e.preventDefault(); // To prevent from refreshing the page.
     try {
       const { data } = await axios.post('/api/users/resendOTP', {
-        id: userInfo._id,
         phoneNumber: userInfo.phoneNumber,
       });
 

@@ -116,6 +116,7 @@ export const resendOTPVerificationSMS = async (id, phoneNumber, res) => {
 
     return res.send({
       success: true,
+      userId: id,
       message: 'OTP sent again.',
     });
   } catch (error) {

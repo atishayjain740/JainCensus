@@ -32,12 +32,12 @@ export default function FormSubmittedScreen() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { userInfo } = state;
   const [{ loading, error, form }, dispatch] = useReducer(reducer, {
-    form: null,
+    form: [],
     loading: true,
     error: '',
   });
 
-  const [formId, setFormId] = useState('');
+  const [formId, setFormId] = useState([]);
 
   useEffect(() => {
     // If the user is not logged in or not verified. Go to sign in screen.
@@ -56,11 +56,41 @@ export default function FormSubmittedScreen() {
           /*const result = await axios.get(
             `/api/users/form/${userInfo.phoneNumber}`
           );*/
+          var forms = [];
           const result = await axios.get(`/api/users/form/${userInfo.formId}`);
-          dispatch({ type: 'FETCH_SUCCESS', payload: result.data['form'] });
+          forms.push(result.data['form']);
+          formId.push(result.data['_id']);
+
+          if (userInfo.membersFormId) {
+            for (var i = 0; i < userInfo.membersFormId.length; i++) {
+              var membersForm = await axios.get(
+                `/api/users/form/${userInfo.membersFormId[i]}`
+              );
+              forms.push(membersForm.data['form']);
+              formId.push(membersForm.data['_id']);
+            }
+          }
+
+          dispatch({ type: 'FETCH_SUCCESS', payload: forms });
+
+          ctxDispatch({
+            type: 'SAVE_FORM_ADDITIONAL',
+            payload: result.data.form.additionalFormInfo,
+          });
+
+          ctxDispatch({
+            type: 'SAVE_FORM_FAMILY',
+            payload: result.data.form.familyFormInfo,
+          });
+
+          ctxDispatch({
+            type: 'SAVE_FORM_MEMBER',
+            payload: result.data.form.membersFormInfo,
+          });
 
           // Set form id to generate qr code.
-          setFormId(result.data['_id']);
+          //setFormId(result.data['_id']);
+          setFormId(formId);
         } catch (err) {
           dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
         }
@@ -79,10 +109,14 @@ export default function FormSubmittedScreen() {
       canvas.style.display = 'none';
       var image = canvas.toDataURL('png');
       var a = document.createElement('a');
-      a.setAttribute('download', form.basicFormInfo.generatedId + '.png');
+      a.setAttribute('download', form[0].basicFormInfo.generatedId + '.png');
       a.setAttribute('href', image);
       a.click();
     });
+  };
+
+  const addMemberHandler = () => {
+    navigate('/formMemberBasicScreen');
   };
 
   const buttonHandler = () => {
@@ -100,9 +134,22 @@ export default function FormSubmittedScreen() {
       <Helmet>Form Submitted</Helmet>
       <div className="container small-container">
         <h1 className="my-3">You have succesfully submitted the form !!</h1>
-        <div id="idcard" style={{ display: 'inline-block' }}>
-          {form && <IdCard form={form} id={formId} />}
-        </div>
+        {form.map((object, i) => {
+          return (
+            <div id="idcard" style={{ display: 'inline-block' }}>
+              {form && <IdCard form={object} id={formId[i]} />}
+              <hr></hr>
+            </div>
+          );
+        })}
+        <Button
+          onClick={addMemberHandler}
+          className="primary m-3"
+          size="lg"
+          variant="primary"
+        >
+          Add Member
+        </Button>
         <Button
           onClick={downloadHandler}
           className="primary m-3"

@@ -17,7 +17,6 @@ export default function SignInScreen() {
   const redirect = redirectInUrl ? redirectInUrl : '/';
 
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [password, setPassword] = useState('');
 
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { userInfo } = state;
@@ -27,16 +26,15 @@ export default function SignInScreen() {
     try {
       const { data } = await axios.post('/api/users/signin', {
         phoneNumber,
-        password,
       });
 
       ctxDispatch({ type: 'USER_SIGNIN', payload: data });
-      if (!data.verified) {
-        var redirectString = redirect !== '/' ? '?redirect=' + redirect : '';
-        navigate('/enterOtp' + redirectString);
-      } else {
-        navigate(redirect || '/');
-      }
+      //if (!data.verified) {
+      var redirectString = redirect !== '/' ? '?redirect=' + redirect : '';
+      navigate('/enterOtp' + redirectString);
+      //} else {
+      //navigate(redirect || '/');
+      //}
     } catch (err) {
       toast.error(getError(err));
     }
@@ -77,20 +75,16 @@ export default function SignInScreen() {
               }}
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="password">
-            <FormLabel>Password</FormLabel>
-            <Form.Control
-              type="password"
-              required
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </Form.Group>
           <div className="mb-3">
             <Button type="submit">Submit</Button>
           </div>
-          <div className="mb-3">
-            New user?{' '}
-            <Link to={`/signup?redirect=${redirect}`}>Create your account</Link>
+          <div>
+            <div className="mb-3 float-start">
+              New user?{' '}
+              <Link to={`/signup?redirect=${redirect}`}>
+                Create your account
+              </Link>
+            </div>
           </div>
         </Form>
       </Container>

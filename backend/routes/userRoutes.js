@@ -20,47 +20,30 @@ userRouter.post(
   '/signin',
   expressAsyncHandler(async (req, res) => {
     const user = await User.findOne({ phoneNumber: req.body.phoneNumber });
-    if (user) {
-      if (bcrypt.compareSync(req.body.password, user.password)) {
-        if (user.verified) {
-          res.send({
-            _id: user._id,
-            name: user.name,
-            phoneNumber: user.phoneNumber,
-            password: user.password,
-            verified: user.verified,
-            isAdmin: user.isAdmin,
-            formSubmitted: user.formSubmitted,
-            formId: user.formId,
-            token: generateToken(user),
-          });
 
-          return;
-        } else {
-          return sendOTPVerificationSMS(user, res);
-        }
-      }
+    if (user) {
+      await User.updateOne({ _id: user._id }, { verified: false });
+      user.verified = false;
+
+      return sendOTPVerificationSMS(user, res);
     }
-    res.status(401).send({ message: 'Invalid phone number or password' });
+    res.status(401).send({ message: 'Invalid phone number' });
   })
 );
 
 userRouter.post(
   '/signup',
   expressAsyncHandler(async (req, res) => {
-    let { name, phoneNumber, password } = req.body;
+    let { name, phoneNumber } = req.body;
 
     name = name.trim();
     phoneNumber = +phoneNumber.trim();
-    password = password.trim();
 
     // Validations
-    if (name == '' || phoneNumber == '' || password == '') {
+    if (name == '' || phoneNumber == '') {
       res.status(401).send({ message: 'Empty input fields!' });
     } else if (!/^[a-zA-Z ]{2,30}$/.test(name)) {
       res.status(401).send({ message: 'Invalid name entered!' });
-    } else if (password.length < 8) {
-      res.status(401).send({ message: 'Password is too short!' });
     } else {
       User.find({ phoneNumber }).then((result) => {
         // User already exists.
@@ -73,7 +56,6 @@ userRouter.post(
           const newUser = new User({
             name: name,
             phoneNumber: phoneNumber,
-            password: bcrypt.hashSync(password),
           });
           newUser
             .save()
@@ -87,16 +69,6 @@ userRouter.post(
                 message: 'An error occurred while saving user account',
               });
             });
-
-          /*res.send({
-            _id: newUser._id,
-            name: newUser.name,
-            phoneNumber: newUser.phoneNumber,
-            password: newUser.password,
-            verified: newUser.verified,
-            isAdmin: newUser.isAdmin,
-            token: generateToken(newUser),
-          });*/
         }
       });
     }
@@ -107,8 +79,17 @@ userRouter.post(
   '/resendOtp',
   expressAsyncHandler(async (req, res) => {
     try {
-      let { id, phoneNumber } = req.body;
-      return resendOTPVerificationSMS(id, phoneNumber, res);
+      let { phoneNumber } = req.body;
+
+      const user = await User.findOne({ phoneNumber: req.body.phoneNumber });
+      if (!user) {
+        res.status(401).send({
+          success: false,
+          message: 'Invalid phone number',
+        });
+      }
+
+      return resendOTPVerificationSMS(user._id, phoneNumber, res);
     } catch (err) {
       res.status(401).send({
         success: false,
@@ -218,6 +199,80 @@ userRouter.post(
         generatedId: id,
       });
     } catch (err) {
+      console.log(err);
+      res.send({
+        success: false,
+        message: 'Error occurred! Cannot submit form',
+      });
+    }
+  })
+);
+
+userRouter.post(
+  '/formSubmitMember',
+  expressAsyncHandler(async (req, res) => {
+    try {
+      var formData = req.body.formData;
+
+      const userExist = await User.findOne({
+        phoneNumber: formData.basicFormInfo.phoneNumber,
+      });
+      if (userExist) {
+        res.send({
+          success: false,
+          message: 'Phone number already used',
+        });
+
+        return;
+      }
+
+      // Generate ID. Add to form.
+      const id = await generateFormID(req.body.phoneNumber, formData);
+      if (id == null || id == '') {
+        res.send({
+          success: false,
+          message: 'Error occurred! Id not generated!',
+        });
+
+        return;
+      }
+
+      formData.basicFormInfo['generatedId'] = id;
+
+      const newForm = new Form({
+        name: req.body.name,
+        phoneNumber: formData.basicFormInfo.phoneNumber,
+        isAdmin: req.body.isAdmin,
+        form: formData,
+      });
+      const form = await newForm.save();
+      const user = await User.updateOne(
+        { phoneNumber: req.body.phoneNumber },
+        {
+          $push: {
+            membersFormId: newForm._id,
+          },
+        }
+      );
+      const userForm = await Form.updateOne(
+        { phoneNumber: req.body.phoneNumber },
+        {
+          $push: {
+            ['form.membersFormInfo']: newForm,
+          },
+        }
+      );
+
+      await sendConfirmationSMS(formData.familyFormInfo.headNumber, id);
+
+      res.send({
+        success: true,
+        formSubmitted: true,
+        formId: newForm._id,
+        generatedId: id,
+      });
+    } catch (err) {
+      console.log(err);
       res.send({
         success: false,
         message: 'Error occurred! Cannot submit form',

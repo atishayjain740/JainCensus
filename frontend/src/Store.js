@@ -21,6 +21,9 @@ const initialState = {
     photoFormInfo: localStorage.getItem('photoFormInfo')
       ? JSON.parse(localStorage.getItem('photoFormInfo'))
       : {},
+    membersFormInfo: localStorage.getItem('membersFormInfo')
+      ? JSON.parse(localStorage.getItem('membersFormInfo'))
+      : [],
   },
 };
 
@@ -50,11 +53,18 @@ function reducer(state, action) {
       localStorage.removeItem('additionalFormInfo');
       localStorage.removeItem('familyFormInfo');
       localStorage.removeItem('photoFormInfo');
+      localStorage.removeItem('membersFormInfo');
 
       return {
         ...state,
         userInfo: null,
-        form: { basicFormInfo: {}, additionalFormInfo: {}, familyFormInfo: {} },
+        form: {
+          basicFormInfo: {},
+          additionalFormInfo: {},
+          familyFormInfo: {},
+          photoFormInfo: {},
+          membersFormInfo: [],
+        },
       };
     }
     case 'SAVE_FORM_BASIC': {
@@ -123,6 +133,130 @@ function reducer(state, action) {
         ...state,
         userInfo: info,
         basicFormInfo: basicInfo,
+      };
+    }
+    case 'SAVE_FORM_BASIC_MEMBER': {
+      var membersInfo = localStorage.getItem('membersFormInfo')
+        ? JSON.parse(localStorage.getItem('membersFormInfo'))
+        : [];
+
+      var additionalInfo = localStorage.getItem('additionalFormInfo')
+        ? JSON.parse(localStorage.getItem('additionalFormInfo'))
+        : {};
+
+      var familyInfo = localStorage.getItem('familyFormInfo')
+        ? JSON.parse(localStorage.getItem('familyFormInfo'))
+        : {};
+
+      let basicMembersInfo = {
+        basicFormInfo: action.payload,
+        additionalFormInfo: additionalInfo,
+        familyFormInfo: familyInfo,
+        photoFormInfo: '',
+        submitted: false,
+      };
+
+      let currentMembersInfo = membersInfo[membersInfo.length - 1];
+      if (membersInfo.length > 0) {
+        if (currentMembersInfo['submitted']) {
+          membersInfo.push(basicMembersInfo);
+        } else {
+          currentMembersInfo = basicMembersInfo;
+          membersInfo[membersInfo.length - 1] = currentMembersInfo;
+        }
+      } else {
+        membersInfo.push(basicMembersInfo);
+      }
+
+      localStorage.setItem('membersFormInfo', JSON.stringify(membersInfo));
+
+      return {
+        ...state,
+        form: {
+          ...state.form,
+          membersFormInfo: membersInfo,
+        },
+      };
+    }
+    case 'SAVE_FORM_PHOTO_MEMBER': {
+      let membersInfo = localStorage.getItem('membersFormInfo')
+        ? JSON.parse(localStorage.getItem('membersFormInfo'))
+        : [];
+
+      let currentMembersInfo = membersInfo[membersInfo.length - 1];
+
+      currentMembersInfo['photoFormInfo'] = action.payload;
+      membersInfo[membersInfo.length - 1] = currentMembersInfo;
+
+      localStorage.setItem('membersFormInfo', JSON.stringify(membersInfo));
+
+      return {
+        ...state,
+        form: {
+          ...state.form,
+          membersFormInfo: membersInfo,
+        },
+      };
+    }
+    case 'SAVE_FORM_MEMBER': {
+      localStorage.setItem('membersFormInfo', JSON.stringify(action.payload));
+
+      return {
+        ...state,
+        form: {
+          ...state.form,
+          membersFormInfo: action.payload,
+        },
+      };
+    }
+    case 'USER_SUBMIT_FORM_MEMBER': {
+      let membersBasicInfo = {
+        ...state.form.membersFormInfo[state.form.membersFormInfo.length - 1]
+          .basicFormInfo,
+        generatedId: JSON.stringify(action.payload.generatedId),
+      };
+
+      let currentMembersInfo = {
+        ...state.form.membersFormInfo[state.form.membersFormInfo.length - 1],
+        basicFormInfo: membersBasicInfo,
+        submitted: action.payload.formSubmitted,
+        formId: action.payload.formId,
+      };
+
+      /*let membersInfo = {
+        ...state.form.membersFormInfo,
+        state.form.membersFormInfo[state.form.membersFormInfo.length - 1]: currentMembersInfo
+      };*/
+      state.form.membersFormInfo[state.form.membersFormInfo.length - 1] =
+        currentMembersInfo;
+      let membersInfo = state.form.membersFormInfo;
+
+      localStorage.setItem('membersFormInfo', JSON.stringify(membersInfo));
+
+      let membersId = [];
+      if (state.userInfo.membersFormId) {
+        membersId = state.userInfo.membersFormId;
+
+        if (membersId.length == 0) {
+          membersId[0] = action.payload.formId;
+        } else {
+          membersId[membersId.length - 1] = action.payload.formId;
+        }
+      } else {
+        membersId[0] = action.payload.formId;
+      }
+
+      let info = {
+        ...state.userInfo,
+        membersFormId: membersId,
+      };
+
+      localStorage.setItem('userInfo', JSON.stringify(info));
+
+      return {
+        ...state,
+        membersFormInfo: membersInfo,
+        userInfo: info,
       };
     }
     default:

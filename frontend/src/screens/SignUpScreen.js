@@ -18,24 +18,17 @@ export default function SignUpScreen() {
 
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
 
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { userInfo } = state;
 
   const submitHandler = async (e) => {
     e.preventDefault(); // To prevent from refreshing the page.
-    if (password !== confirmPassword) {
-      toast.error('Passwords do not match');
-      return;
-    }
 
     try {
       const { data } = await axios.post('/api/users/signup', {
         name,
         phoneNumber,
-        password,
       });
 
       ctxDispatch({ type: 'USER_SIGNIN', payload: data });
@@ -83,25 +76,6 @@ export default function SignUpScreen() {
                 }
                 setPhoneNumber(e.target.value);
               }}
-            />
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="password">
-            <FormLabel>Password</FormLabel>
-            <Form.Control
-              type="password"
-              required
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <Form.Text muted>
-              Your password must be 8 characters long.
-            </Form.Text>
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="confirmPassword">
-            <FormLabel>Confirm Password</FormLabel>
-            <Form.Control
-              type="password"
-              required
-              onChange={(e) => setConfirmPassword(e.target.value)}
             />
           </Form.Group>
           <div className="mb-3">

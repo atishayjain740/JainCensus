@@ -22,6 +22,9 @@ import ViewIdCardScreen from './screens/ViewIdCardScreen';
 import Row from 'react-bootstrap/esm/Row';
 import Col from 'react-bootstrap/esm/Col';
 import EnterOtpScreen from './screens/EnterOtpScreen';
+import FormMemberBasicScreen from './screens/memberform/FormMemberBasicScreen';
+import FormMemberPhotoScreen from './screens/memberform/FormMemberPhotoScreen';
+import FormMemberPreviewScreen from './screens/memberform/FormMemberPreviewScreen';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -122,6 +125,18 @@ function App() {
                 element={<FormSubmittedScreen />}
               />
               <Route path="/idCard" element={<ViewIdCardScreen />} />
+              <Route
+                path="/formMemberBasicScreen"
+                element={<FormMemberBasicScreen />}
+              />
+              <Route
+                path="/formMemberPhoto"
+                element={<FormMemberPhotoScreen />}
+              />
+              <Route
+                path="/formMemberPreview"
+                element={<FormMemberPreviewScreen />}
+              />
             </Routes>
           </Container>
         </main>
