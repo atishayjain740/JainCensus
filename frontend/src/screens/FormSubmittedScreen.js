@@ -57,9 +57,11 @@ export default function FormSubmittedScreen() {
             `/api/users/form/${userInfo.phoneNumber}`
           );*/
           var forms = [];
+          var formIds = [];
+
           const result = await axios.get(`/api/users/form/${userInfo.formId}`);
           forms.push(result.data['form']);
-          formId.push(result.data['_id']);
+          formIds.push(result.data['_id']);
 
           if (userInfo.membersFormId) {
             for (var i = 0; i < userInfo.membersFormId.length; i++) {
@@ -67,7 +69,7 @@ export default function FormSubmittedScreen() {
                 `/api/users/form/${userInfo.membersFormId[i]}`
               );
               forms.push(membersForm.data['form']);
-              formId.push(membersForm.data['_id']);
+              formIds.push(membersForm.data['_id']);
             }
           }
 
@@ -90,7 +92,7 @@ export default function FormSubmittedScreen() {
 
           // Set form id to generate qr code.
           //setFormId(result.data['_id']);
-          setFormId(formId);
+          setFormId(formIds);
         } catch (err) {
           dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
         }
