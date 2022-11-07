@@ -141,7 +141,7 @@ function App() {
           </Container>
         </main>
         <footer>
-          <Col className="contact-us">
+          {/*<Col className="contact-us">
             <Row className="text-center mx-0">
               <strong>
                 <u>Our Team</u>
@@ -178,7 +178,7 @@ function App() {
                 </div>
               </Col>
             </Row>
-          </Col>
+                  </Col>*/}
           <div className="text-center footer">
             Powered by: Global Digambar Jain Mahasabha, Rashtriya Jain Sanghatan
             <br></br>
